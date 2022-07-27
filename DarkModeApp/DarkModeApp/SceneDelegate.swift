@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         self.window?.windowScene = windowScene
         self.window?.makeKeyAndVisible()
+        sandBoxfile()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,6 +50,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    func sandBoxfile() {
+        let fileManager = FileManager.default
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let url = urls.last?.appendingPathComponent("file.txt")
+        
+        do {
+            try "Olá mundo!".write(to: url!, atomically:  true, encoding: .utf8)
+        } catch {
+            print("Error enquanto tentava escrever")
+        }
+        
+        do {
+            let content = try String(contentsOf: url!, encoding: String.Encoding.utf8)
+            
+            if content == "Olá mundo!" {
+                print("Yes! \(content)")
+            } else {
+                print("No!")
+            }
+        } catch {
+            print("Não conseguiu ler o conteudo")
+        }
     }
 
 
